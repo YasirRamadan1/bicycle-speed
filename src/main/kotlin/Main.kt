@@ -7,12 +7,13 @@ fun main(args: Array<String>) {
     val rearTeeth = 12
     val rpm = 60
 
-    calculateBikeSpeed(
+    val speed = calculateBikeSpeed(
         frontGearTeeth = frontTeeth,
         rearGearTeeth = rearTeeth,
         rpm = rpm,
         wheelDiameter = wheelDiameter
     )
+    println("The speed of the bicycle is $speed km/h")
 }
 
 /**
@@ -25,28 +26,27 @@ fun main(args: Array<String>) {
  * @param rearGearTeeth the number of the rear teeth of the bike gear
  * @param rpm the number of revolutions per minute of the wheel
  * @param wheelDiameter of the bike wheel
+ * @return [Double] of bike speed
  */
 fun calculateBikeSpeed(
     frontGearTeeth: Int,
     rearGearTeeth: Int,
     rpm: Int,
     wheelDiameter: Double,
-) {
-    try {
-        val gearRatio = calculateGearRatio(frontGearTeeth = frontGearTeeth, rearGearTeeth = rearGearTeeth)
-        val traveledDistancePerMinute = calculateDistanceMeterPerMinute(
-            rpm = rpm,
-            wheelDiameter = wheelDiameter
-        )
+) = try {
+    val gearRatio = calculateGearRatio(frontGearTeeth = frontGearTeeth, rearGearTeeth = rearGearTeeth)
+    val traveledDistancePerMinute = calculateDistanceMeterPerMinute(
+        rpm = rpm,
+        wheelDiameter = wheelDiameter
+    )
 
-        val speed = calculateBikeSpeedInKmPerHour(
-            distancePerMinute = traveledDistancePerMinute,
-            gearRatio = gearRatio
-        )
-        println("The speed of the bicycle is $speed KM/HOUR")
-    } catch (e: IllegalArgumentException) {
-        print("couldn't calculate the speed, reason: ${e.message}")
-    }
+    calculateBikeSpeedInKmPerHour(
+        distancePerMinute = traveledDistancePerMinute,
+        gearRatio = gearRatio
+    )
+} catch (e: IllegalArgumentException) {
+    print("couldn't calculate the speed, reason: ${e.message}")
+    0.0
 }
 
 /**
